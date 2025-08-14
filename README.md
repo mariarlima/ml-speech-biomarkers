@@ -13,6 +13,15 @@ However, ML approaches face barriers to clinical translation fue to limited gene
 This study introduced an interpretable ML approach for automated assessment of cognitive health from spoken language. 
 We evaluated predictive models using a benchmark DementiaBank dataset and pilot data collected in-residence from older adults. 
 
+## ML Pipeline
+
+We explored acoustic, linguistic and six multimodal feature combinations using early fusion methods. 
+
+<div align="center">
+  <img src="./images/pipeline.png" alt="pipeline" width="930"/>
+  <p><em>Proposed ML pipeline for cognitive health assessment (left) and features extracted (right).</em></p>
+</div>
+
 ## Analysis Structure
 
 Key notebooks:
