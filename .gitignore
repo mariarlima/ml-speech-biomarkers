@@ -12,5 +12,8 @@ venv/
 # OS files
 .DS_Store
 
+# Python packaging
+*.egg-info/
+
 # Ignore local verification/check folders
 zzzCHECKS/
