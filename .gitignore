@@ -16,4 +16,4 @@ venv/
 *.egg-info/
 
 # Ignore local verification/check folders
-zzzCHECKS/
+zCHECKS/
