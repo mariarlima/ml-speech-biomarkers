@@ -7,7 +7,7 @@ This code is based on the results presented in the arXiv [paper](https://arxiv.o
 More than 75% of dementia cases today are undiagnosed.
 Timely and accurate assessment of cognitive impairment is a major unmet need in populations at risk. 
 Speech and language changes can be early predictors of Alzheimer’s disease and related dementias (ADRD) before clinical signs of neurodegeneration, offering an opportunity for early detection. 
-_Speech biomarkers_ provide a scalable, non-invasive solution for automated screening. 
+_**Speech biomarkers**_ provide a scalable, non-invasive solution for automated screening. 
 However, ML approaches face barriers to clinical translation fue to limited generalisability, interpretability, and scarcity of clinically representative datasets.
 
 This study introduced an interpretable ML approach for automated assessment of cognitive health from spoken language. 
