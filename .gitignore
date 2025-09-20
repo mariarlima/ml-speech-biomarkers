@@ -21,3 +21,4 @@ venv2/
 zCHECKS/
 
 notebooks/paper_plots.ipynb
+data/mapping.csv
