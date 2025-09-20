@@ -15,12 +15,12 @@ from sklearn.metrics import (
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn import metrics as skmetrics
 from sklearn.base import clone
 
 from .metrics import specificity_score
 from .utils.io import get_cv_model_path
 
+SEED = 42
 
 def hyperparameter_tuning(model, params, X, y):
     """Run RandomizedSearchCV over given parameters with 10-fold cross-validation."""
@@ -32,42 +32,58 @@ def hyperparameter_tuning(model, params, X, y):
     return search
 
 
-def crossval(model_name, model, params, X, y, feature_set):
-    """Run cross-validation with multiple metrics and save best estimator."""
+def crossval_(model_name, model, params, X, y, feature_set):
+    """
+    Function to perform hyperparameter tuning and evaluation on training set (mean, standard deviation) using single 10-fold CV
+    """
+
     model_map = {
         'Logistic Regression': 'lr',
         'SVM': 'svm',
         'Random Forest': 'rf',
         'Neural Network': 'nn',
-        'XGBoost': 'xgboost',
+        'XGBoost': 'xgboost'
     }
 
     scoring = {
-        'sensitivity': make_scorer(recall_score),
-        'specificity': make_scorer(specificity_score),
-        'roc_auc': 'roc_auc',
-        'accuracy': make_scorer(accuracy_score),
+        "sensitivity": make_scorer(recall_score),  # Sensitivity is the same as recall
+        "specificity": make_scorer(specificity_score),
+        "roc_auc": "roc_auc",
+        "accuracy": make_scorer(accuracy_score)
     }
 
-    search = RandomizedSearchCV(
-        model, params, n_iter=50, cv=10, verbose=1,
-        random_state=42, n_jobs=-1, scoring=scoring, refit='accuracy'
+    # cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=SEED)
+
+    random_search = RandomizedSearchCV(
+        model, 
+        params, 
+        n_iter=50, 
+        cv=10, 
+        verbose=1, 
+        random_state=SEED, 
+        n_jobs=-1, # parallel
+        scoring=scoring, 
+        refit="accuracy", # "roc_auc",  # or "accuracy"
     )
-    search.fit(X, y)
+    
+    random_search.fit(X, y)
 
     abbr = model_map.get(model_name, model_name.lower())
     path = get_cv_model_path(feature_set, abbr)
     path.parent.mkdir(parents=True, exist_ok=True)
-    joblib.dump(search.best_estimator_, path)
+    joblib.dump(random_search.best_estimator_, path)
 
+    # Extracting scores
     metrics = ['sensitivity', 'specificity', 'roc_auc', 'accuracy']
-    best = search.best_index_
     scores = {'Model': model_name}
-
-    for m in metrics:
-        mean = 100 * search.cv_results_[f'mean_test_{m}'][best]
-        std = 100 * search.cv_results_[f'std_test_{m}'][best]
-        scores[m.capitalize()] = f"{mean:.1f} ({std:.1f})"
+    
+    for metric in metrics:
+        mean_score_key = f'mean_test_{metric}'
+        std_score_key = f'std_test_{metric}'
+        best_index = random_search.best_index_
+        mean_score = random_search.cv_results_[mean_score_key][best_index] * 100
+        std_score = random_search.cv_results_[std_score_key][best_index] * 100
+        scores[metric.capitalize()] = f"{mean_score:.1f} ({std_score:.1f})"
 
     return scores
 

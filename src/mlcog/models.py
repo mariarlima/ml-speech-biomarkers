@@ -4,18 +4,19 @@ from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.svm import SVC, SVR
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.neural_network import MLPClassifier, MLPRegressor
+from sklearn.calibration import CalibratedClassifierCV
 import xgboost as xgb
 
-_RNG = 42  # Reproducible defaults
+SEED = 42  # Reproducible defaults
 
 
 def create_models():
     """Create baseline classifiers with sensible defaults."""
-    lr = LogisticRegression(max_iter=10_000, random_state=_RNG)
+    lr = LogisticRegression(max_iter=10_000, random_state=SEED)
 
-    svm = SVC(probability=True, random_state=_RNG)
+    svm = SVC(probability=True, random_state=42)
 
-    rf = RandomForestClassifier(criterion="gini", random_state=_RNG)
+    rf = RandomForestClassifier(criterion="gini", random_state=SEED, n_jobs=1)
 
     mlp = MLPClassifier(
         hidden_layer_sizes=(400,),
@@ -24,21 +25,21 @@ def create_models():
         learning_rate="adaptive",
         learning_rate_init=1e-3,
         batch_size="auto",
-        max_iter=10_000,
-        random_state=_RNG,
+        max_iter=10000,
+        random_state=SEED,
     )
 
     xgb_model = xgb.XGBClassifier(
-        random_state=_RNG,
+        random_state=SEED,
         eval_metric="logloss",
-        # tree_method="hist",  # Uncomment if supported; speeds up training.
+        n_jobs=1
     )
 
     return {"lr": lr, "svm": svm, "rf": rf, "nn": mlp, "xgboost": xgb_model}
 
+def create_param_grids_():
+    """Create hyperparameter distributions for randomized search (raw estimators, no Pipeline)."""
 
-def create_param_grids():
-    """Create hyperparameter distributions for randomized search."""
     lr_params = {
         "C": loguniform(1e-5, 1e2),
         "penalty": ["l1", "l2"],
@@ -61,7 +62,7 @@ def create_param_grids():
     nn_params = {
         "learning_rate_init": loguniform(1e-3, 1e-2),
         "batch_size": [16, 32, 64, 128, 166],  # 166 = total training recordings
-        "alpha": loguniform(1e-4, 1e-3),  # L2 regularization
+        "alpha": loguniform(1e-4, 1e-3),       # L2 regularization
     }
 
     xgb_params = {
@@ -87,7 +88,7 @@ def create_regression_models():
     """Create baseline regressors with sensible defaults."""
     rr = Ridge()  # Ridge has no random_state
     svr = SVR()
-    rf = RandomForestRegressor(random_state=_RNG)
+    rf = RandomForestRegressor(random_state=SEED)
     nn = MLPRegressor(
         hidden_layer_sizes=(400,),
         activation="relu",
@@ -96,10 +97,10 @@ def create_regression_models():
         learning_rate_init=1e-3,
         batch_size="auto",
         max_iter=10_000,
-        random_state=_RNG,
+        random_state=SEED,
     )
     xgb_model = xgb.XGBRegressor(
-        random_state=_RNG,
+        random_state=SEED,
         objective="reg:squarederror",
     )
 

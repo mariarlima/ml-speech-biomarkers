@@ -12,8 +12,7 @@ from sklearn.metrics import (
 
 def specificity_score(y_true, y_pred):
     """Compute specificity (true negative rate)."""
-    tn, fp, _, _ = confusion_matrix(y_true, y_pred).ravel()
-    return tn / (tn + fp) if (tn + fp) else 0.0
+    return recall_score(y_true, y_pred, pos_label=0)
 
 
 def rmse_score(y_true, y_pred):
@@ -24,24 +23,11 @@ def rmse_score(y_true, y_pred):
 def calculate_metrics(y_true, y_pred):
     """Compute sensitivity, specificity, ROC AUC, and accuracy."""
     acc = accuracy_score(y_true, y_pred)
-    sens = recall_score(y_true, y_pred)
-    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-
-    spec = tn / (tn + fp) if (tn + fp) else 0.0
+    sens = recall_score(y_true, y_pred, pos_label=1)
+    spec = recall_score(y_true, y_pred, pos_label=0)
     rocauc = roc_auc_score(y_true, y_pred)
 
     return sens, spec, rocauc, acc
-
-
-def calculate_metrics_probabilities(y_true, y_pred):
-    """Compute sensitivity, specificity, and accuracy (for probabilistic outputs)."""
-    acc = accuracy_score(y_true, y_pred)
-    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-
-    sens = tp / (tp + fn) if (tp + fn) else 0.0
-    spec = tn / (tn + fp) if (tn + fp) else 0.0
-
-    return sens, spec, acc
 
 
 def calculate_confusion_items(y_true, y_pred):
@@ -72,10 +58,7 @@ def calculate_metrics_with_ci(scores, confidence=0.95):
 
 
 def calc_metrics_folds_bootstrap_probabilities(proba, y_true, green_thresh, amber_thresh):
-    accuracies = []
-    recalls = []
-    specs = []
-    aucs = []
+    accuracies, recalls, specs, aucs = [], [], [], []
     
     for a in proba:
         a = pd.DataFrame(a, columns=['prob'])
@@ -96,7 +79,7 @@ def calc_metrics_folds_bootstrap_probabilities(proba, y_true, green_thresh, ambe
         y_pred_filtered = (proba_filtered > 0.5).astype(int)
         
         # Calculate the metrics
-        sens, spec, acc = calculate_metrics_probabilities(y_true_filtered, y_pred_filtered)
+        sens, spec, _, acc = calculate_metrics(y_true_filtered, y_pred_filtered)
         
         # Append the results
         recalls.append(sens)
