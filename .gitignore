@@ -22,3 +22,5 @@ zCHECKS/
 
 notebooks/paper_plots.ipynb
 data/mapping.csv
+
+data/wer
