@@ -6,7 +6,9 @@ import numpy as np
 from pathlib import Path
 import torch
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix
 from ..evaluation import splits_performace
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 

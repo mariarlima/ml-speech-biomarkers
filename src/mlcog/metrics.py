@@ -35,6 +35,13 @@ def calculate_confusion_items(y_true, y_pred):
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
     return tp, tn, fp, fn
 
+def calc_items(threshold, probs, y_test, idx):
+    # Predicted labels based on threshold
+    y_pred = (np.array(probs) > threshold).astype(int)
+    # Calculate confusion matrix items for Females
+    tp, tn, fp, fn = calculate_confusion_items(y_test[idx], y_pred[idx])
+    return tp, tn, fp, fn
+
 
 def calc_spec(y_true, y_pred):
     """Alias for computing specificity."""
