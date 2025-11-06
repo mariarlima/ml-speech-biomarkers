@@ -1,6 +1,6 @@
 # Predictive Modelling for Early Screening of Cognitive Impairment from Speech
 
-This code is based on the results presented in the arXiv [paper](https://arxiv.org/abs/2501.18731) _Evaluating Spoken Language as a Biomarker for Automated Screening of Cognitive Impairment_. 
+This code is based on the results presented in the Nature Communications Medicine [paper](https://arxiv.org/abs/2501.18731) _Evaluating Spoken Language as a Biomarker for Automated Screening of Cognitive Impairment_. 
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17370485.svg)](https://doi.org/10.5281/zenodo.17370485)
 
