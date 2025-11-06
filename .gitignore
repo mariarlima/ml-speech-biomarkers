@@ -18,7 +18,7 @@ venv2/
 *.egg-info/
 
 # Ignore local verification/check folders
-zCHECKS/
+zCHECK/
 
 notebooks/paper_plots.ipynb
 data/mapping.csv
