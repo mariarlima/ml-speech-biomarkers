@@ -1,6 +1,6 @@
 # Predictive Modelling for Early Screening of Cognitive Impairment from Speech
 
-This code is based on the results presented in the Nature Communications Medicine [paper](https://arxiv.org/abs/2501.18731) _Evaluating Spoken Language as a Biomarker for Automated Screening of Cognitive Impairment_. 
+This code is based on the results presented in the Nature Communications Medicine 2025 [paper](https://arxiv.org/abs/2501.18731) _Evaluating Spoken Language as a Biomarker for Automated Screening of Cognitive Impairment_. 
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17370485.svg)](https://doi.org/10.5281/zenodo.17370485)
 
@@ -10,7 +10,7 @@ More than 75% of dementia cases today are undiagnosed.
 Timely and accurate assessment of cognitive impairment is a major unmet need in populations at risk. 
 Speech and language changes can be early predictors of Alzheimer’s disease and related dementias (ADRD) before clinical signs of neurodegeneration, offering an opportunity for early detection. 
 _**Speech biomarkers**_ provide a scalable, non-invasive solution for automated screening. 
-However, ML approaches face barriers to clinical translation fue to limited generalisability, interpretability, and scarcity of clinically representative datasets.
+However, ML approaches face barriers to clinical translation due to limited generalisability, interpretability, and scarcity of clinically representative datasets.
 
 This study introduced an interpretable ML approach for automated assessment of cognitive health from spoken language. 
 We evaluated predictive models using a benchmark DementiaBank dataset and pilot data collected in-residence from older adults. 

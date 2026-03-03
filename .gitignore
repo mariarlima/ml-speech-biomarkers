@@ -23,4 +23,6 @@ zCHECK/
 notebooks/paper_plots.ipynb
 data/mapping.csv
 
+predict_transcript.py
+
 data/wer
