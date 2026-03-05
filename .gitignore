@@ -17,12 +17,22 @@ venv2/
 # Python packaging
 *.egg-info/
 
+# Others
+.cursor/
+
 # Ignore local verification/check folders
 zCHECK/
-
+notebooks/checks.ipynb
+data/all_filtered/
 notebooks/paper_plots.ipynb
 data/mapping.csv
-
-predict_transcript.py
-
 data/wer
+.env
+
+test_single_pred/*
+# keep these 
+!test_single_pred/liwc.py
+!test_single_pred/pred_transcript.py
+!test_single_pred/pred_transcript_liwc.py
+!test_single_pred/liwc-test-pid71.csv
+!test_single_pred/stt_t71.txt
